@@ -45,6 +45,7 @@ public class Waves : MonoBehaviour
         GameControl.WaveActive = true;
         DOTween.To(()=> currWaveTime, x=> currWaveTime = x, 0, WaveLength).SetEase(Ease.Linear);
         yield return new WaitForSecondsRealtime(WaveLength);
+        KillAll();
         WaveTimerText.enabled = false;
         WaveCountdownText.enabled = false;
         WaveCompleteText.text = "Wave complete";
@@ -57,7 +58,7 @@ public class Waves : MonoBehaviour
 
     void KillAll()
     {
-        var enemies = GameObject.FindGameObjectsWithTag("");
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject e in enemies)
         {
             e.GetComponent<EnemyScript>().Die();
@@ -69,7 +70,7 @@ public class Waves : MonoBehaviour
         CurrentWave++;
 
         if (CurrentWave == 1)
-            TimeBetweenWaves = 20f;
+            TimeBetweenWaves = 10f;
         else
         {
             TimeBetweenWaves = 5f;

@@ -9,6 +9,7 @@ TagManager:
   - Spawn
   - GameControl
   - Enemy
+  - Crystal
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Axe
   - Attackable
   - Interactable
-  - 
+  - Wall
   - 
   - 
   - 

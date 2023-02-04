@@ -6,11 +6,14 @@ public class Spawnpoint : MonoBehaviour
 {
     public bool HasEnemy, OnCooldown;
     public float SpawnCooldown;
-    Transform enemyChecker;
+    Transform enemyChecker, crystal;
 
     void Start()
     {
         enemyChecker = this.transform.GetChild(0);
+        crystal = GameObject.FindGameObjectWithTag("Crystal").transform;
+
+        this.gameObject.transform.LookAt(crystal);
     }
 
     private void FixedUpdate()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameControl : MonoBehaviour
 {
@@ -13,18 +14,18 @@ public class GameControl : MonoBehaviour
 
     [HideInInspector]
     public bool ErrorTextVisible;
-
     public Generator GeneratorScript;
+
     // Start is called before the first frame update
     void Start()
     {
         LumberAmountText.text = RemainingLumber.ToString();
+        AxeHealthText.text = AxeHealth.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         FuelAmountText.text = Mathf.Floor(GeneratorScript.FuelRemaining).ToString();
     }
 
