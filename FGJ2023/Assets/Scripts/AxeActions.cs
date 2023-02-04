@@ -10,7 +10,6 @@ public class AxeActions : MonoBehaviour
     public bool AttackOnCooldown;
     public AnimancerComponent Animancer;
     public AnimationClip AxeAttackAnim;
-    public int Damage;
 
     public void Attack()
     {

@@ -7,13 +7,14 @@ public class Generator : Interactable
 {
 
     public float FuelRemaining, FuelDrainRate;
+    public int LumberNeeded;
     float FuelMax = 100;
-    public GameControl GameControl;
     public GameObject[] lamps;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         UseText = "Add Fuel (E)";
         lamps = GameObject.FindGameObjectsWithTag("Lamp");
     }
@@ -40,23 +41,44 @@ public class Generator : Interactable
 
     public override void Use()
     {
-        if (GameControl.RemainingLumber > 0 && FuelRemaining < 100)
+
+        if (GameControl.RemainingLumber < LumberNeeded)
+        {
+            UseErrorText = "Puu puuttuu :D";
+        }
+        else if (FuelRemaining >= FuelMax - 10)
+        {
+            UseErrorText = "Ei mahu enempää :D";
+        }
+
+
+
+        if (GameControl.RemainingLumber > 0 && FuelRemaining < FuelMax)
         {
             FuelRemaining += GameControl.FuelRestoredPerLumber;
             
-            if (FuelRemaining > 100)
-            FuelRemaining = 100;
+            if (FuelRemaining > FuelMax)
+            FuelRemaining = FuelMax;
 
             foreach(GameObject lamp in lamps)
             {
                 var l = lamp.GetComponent<Light>();
 
-                l.intensity = FuelRemaining / 100;
+                l.intensity = FuelRemaining / FuelMax;
 
             }
 
             GameControl.UsedLumber(1);
         }
+        else 
+        {
+            
+            GameControl.UseErrorText.text = UseErrorText;
+
+            if (!GameControl.ErrorTextVisible)
+                StartCoroutine(GameControl.ErrorTextFade());
+        }
         
     }
+
 }

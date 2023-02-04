@@ -7,6 +7,10 @@ public class PlayerActions : MonoBehaviour
 
     public AxeActions AxeScript;
     public Interactable i;
+    Ray useRay;
+    RaycastHit hit;
+    public GameControl GameControl;
+    GameObject CurrentlyUsing;
 
     public void OnAttack()
     {
@@ -15,7 +19,11 @@ public class PlayerActions : MonoBehaviour
 
     public void OnUse()
     {
-        i.Use();
+        if (CurrentlyUsing != null)
+        {
+            var i = CurrentlyUsing.GetComponent<Interactable>();
+            i.Use();
+        }
     }
 
     // Start is called before the first frame update
@@ -24,9 +32,25 @@ public class PlayerActions : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
-        
+        useRay = Camera.main.ViewportPointToRay(new Vector3 (0.5f, 0.5f, 0));
+        if (Physics.Raycast(useRay, out hit, 1.5f, LayerMask.GetMask("Interactable")))
+        {
+            if (CurrentlyUsing == null)
+            {
+            CurrentlyUsing = hit.collider.gameObject;
+            }
+            GameControl.UseHintText.text = CurrentlyUsing.GetComponent<Interactable>().UseText;
+        }
+        else
+        {
+            if (CurrentlyUsing != null)
+            {
+            CurrentlyUsing = null;
+            GameControl.UseHintText.text = "";
+            }
+        }
     }
 }
