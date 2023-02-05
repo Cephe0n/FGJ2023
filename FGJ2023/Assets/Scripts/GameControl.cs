@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public class GameControl : MonoBehaviour
 {
@@ -17,12 +18,17 @@ public class GameControl : MonoBehaviour
     [HideInInspector]
     public bool ErrorTextVisible;
     public Generator GeneratorScript;
+    public GameObject GameOverScreen;
+
+    Transform crystal;
 
     // Start is called before the first frame update
     void Start()
     {
+        crystal = GameObject.FindGameObjectWithTag("Crystal").transform;
         LumberAmountText.text = RemainingLumber.ToString();
         AxeHealthText.text = AxeHealth.ToString();
+        MasterAudio.PlaySound3DAtTransform("sfx_ambient_noise", crystal);
     }
 
     // Update is called once per frame
@@ -48,12 +54,8 @@ public class GameControl : MonoBehaviour
     void Lose()
     {
         GameOver = true;
-    }
-
-    public void OnRestart()
-    {
-        if (GameOver)
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        MasterAudio.StopEverything();
+        GameOverScreen.SetActive(true);
     }
 
     public void DamageAxe()

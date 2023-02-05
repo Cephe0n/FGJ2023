@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerActions : MonoBehaviour
 {
@@ -24,6 +25,12 @@ public class PlayerActions : MonoBehaviour
             var i = CurrentlyUsing.GetComponent<Interactable>();
             i.Use();
         }
+    }
+
+        public void OnRestart()
+    {
+        if (GameControl.GameOver)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // Start is called before the first frame update

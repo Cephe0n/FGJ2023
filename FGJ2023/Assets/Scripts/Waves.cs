@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 public class Waves : MonoBehaviour
 {
     public int CurrentWave = 0;
@@ -10,6 +11,7 @@ public class Waves : MonoBehaviour
     public Text WaveTimerText, WaveCountdownText, WaveCompleteText;
     public EnemySpawner Enemies;
     public Generator Generator;
+    public GameControl GameControl;
     float currWaveTime, currCountdownTime;
 
     // Start is called before the first frame update
@@ -45,7 +47,7 @@ public class Waves : MonoBehaviour
         GameControl.WaveActive = true;
         DOTween.To(()=> currWaveTime, x=> currWaveTime = x, 0, WaveLength).SetEase(Ease.Linear);
         yield return new WaitForSecondsRealtime(WaveLength);
-        //KillAll();
+        KillAll();
         WaveTimerText.enabled = false;
         WaveCountdownText.enabled = false;
         WaveCompleteText.text = "Wave complete";
@@ -56,25 +58,33 @@ public class Waves : MonoBehaviour
 
     }
 
-/*     void KillAll()
+    void KillAll()
     {
         var enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies.Length > 0)
         {
             foreach (GameObject e in enemies)
             {
-                if (e != null)
-                e.GetComponent<EnemyScript>().Die();
+                ObjectPooler.Destroy(e);
+                MasterAudio.StopAllSoundsOfTransform(e.transform);
             }
         }
-    } */
+        EnemySpawner.BasicEnemiesCurr = 0;
+        EnemySpawner.FastEnemiesCurr = 0;
+        EnemySpawner.StrongEnemiesCurr = 0;
+        EnemySpawner.EnemiesTotalCurr = 0;
+        GameControl.RootsOnCrystal = 0;
+    }
 
     void UpdateWaveValues()
     {
         CurrentWave++;
 
+        if (CurrentWave > 10)
+            Application.Quit();
+
         if (CurrentWave == 1)
-            TimeBetweenWaves = 1f;
+            TimeBetweenWaves = 10f;
         else
         {
             TimeBetweenWaves = 5f;

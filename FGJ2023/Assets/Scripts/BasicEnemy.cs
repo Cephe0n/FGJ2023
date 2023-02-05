@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class BasicEnemy : EnemyScript
 {
-    public override void Die(bool fromwaveover = false)
+
+    int MaxHealth = 5; 
+
+    protected override void OnEnable()
+    {
+        Health = MaxHealth; 
+        base.OnEnable();
+    }
+    public override void Die()
     {
         EnemySpawner.BasicEnemiesCurr--;
         base.Die();

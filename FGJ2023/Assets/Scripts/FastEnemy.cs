@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class FastEnemy : EnemyScript
 {
-    public override void Die(bool fromwaveover = false) 
+    int MaxHealth = 2; 
+
+    protected override void OnEnable()
+    {
+        Health = MaxHealth; 
+        base.OnEnable();
+    }
+    public override void Die() 
     {
         EnemySpawner.FastEnemiesCurr--;
         base.Die();

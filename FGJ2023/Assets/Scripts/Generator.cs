@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public class Generator : Interactable
 {
@@ -44,13 +45,12 @@ public class Generator : Interactable
 
         if (GameControl.RemainingLumber < LumberNeeded)
         {
-            UseErrorText = "Puu puuttuu :D";
+            UseErrorText = "Need to chop more roots!";
         }
         else if (FuelRemaining >= FuelMax - 10)
         {
-            UseErrorText = "Ei mahu enempää :D";
+            UseErrorText = "It's full";
         }
-
 
 
         if (GameControl.RemainingLumber > 0 && FuelRemaining < FuelMax)
@@ -69,6 +69,8 @@ public class Generator : Interactable
             }
 
             GameControl.UsedLumber(1);
+
+            MasterAudio.PlaySound3DAtTransformAndForget("sfx_throw_wood", this.gameObject.transform);
         }
         else 
         {

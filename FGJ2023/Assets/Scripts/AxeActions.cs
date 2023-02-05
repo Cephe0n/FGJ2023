@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Animancer;
+using DarkTonic.MasterAudio;
 
 public class AxeActions : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class AxeActions : MonoBehaviour
         {
             AttackOnCooldown = true;
             Animancer.Play(AxeAttackAnim);
+            MasterAudio.PlaySound3DAtTransformAndForget("sfx_axe_swing", this.gameObject.transform);
         }
     }
 
