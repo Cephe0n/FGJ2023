@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 public class GameControl : MonoBehaviour
 {
 
-    public static bool WaveActive;
-    public int RemainingLumber, AxeHealth, AxeDamage, AxeWearRate, AxeRepairRate;
+    public static bool WaveActive, GameOver;
+    public int RemainingLumber, AxeHealth, AxeDamage, AxeWearRate, AxeRepairRate, RootsOnCrystal;
     public int FuelRestoredPerLumber;
-    public Text LumberAmountText, FuelAmountText, UseHintText, UseErrorText, AxeHealthText;
+    public float CrystalHealth, DarknessLevel;
+    public Text LumberAmountText, FuelAmountText, UseHintText, UseErrorText, AxeHealthText, CrystalHealthText;
 
     [HideInInspector]
     public bool ErrorTextVisible;
@@ -27,6 +29,31 @@ public class GameControl : MonoBehaviour
     void Update()
     {
         FuelAmountText.text = Mathf.Floor(GeneratorScript.FuelRemaining).ToString();
+        CrystalHealthText.text = Mathf.Floor(CrystalHealth).ToString();
+
+        DarknessLevel = (100 - GeneratorScript.FuelRemaining) / 100;
+
+        if (RootsOnCrystal > 0)
+        {
+            CrystalHealth -= RootsOnCrystal * Time.deltaTime;
+        }
+
+        if (CrystalHealth <= 0)
+        {
+            CrystalHealth = 0;
+           Lose();
+        }
+    }
+
+    void Lose()
+    {
+        GameOver = true;
+    }
+
+    public void OnRestart()
+    {
+        if (GameOver)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void DamageAxe()

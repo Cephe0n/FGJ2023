@@ -28,6 +28,10 @@ public class Spawnpoint : MonoBehaviour
                 if (!OnCooldown)
                 StartCoroutine(SpawnCd());
             }
+            else
+            {
+                HasEnemy = true;
+            }
         }
 
     }

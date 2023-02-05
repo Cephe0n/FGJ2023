@@ -7,10 +7,12 @@ public class EnemyScript : MonoBehaviour
 {
     public int Health, WoodGained;
     private bool invincible, leeching;
-    public float InvincibleTime, TimeToReachCrystal;
+    public float InvincibleTime, Speed;
     public GameControl GameControl;
     public Material GlowyMat;
+    bool active;
     Transform crystal;
+    ParticleSystem WoodChips;
 
     // Start is called before the first frame update
     void Start()
@@ -21,20 +23,36 @@ public class EnemyScript : MonoBehaviour
     void OnEnable()
     {
         crystal = GameObject.FindGameObjectWithTag("Crystal").transform;
-        this.transform.parent.DOMove(crystal.position, TimeToReachCrystal);
+        WoodChips = GameObject.FindGameObjectWithTag("WoodChips").GetComponent<ParticleSystem>();
+        //this.transform.parent.DOMove(crystal.position, TimeToReachCrystal).SetEase(Ease.InSine);
+        active = true;
+    }
+
+    void OnDisable()
+    {
+        active = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (active && !leeching)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, crystal.position, (Speed + GameControl.DarknessLevel) * Time.deltaTime);
+        }
+
         if (Health <= 0)
             Die();
+
+        if (!GameControl.WaveActive)
+            Die(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6 && !invincible)
         {
+            WoodChips.Play();
             invincible = true;
             StartCoroutine(HitCd());
             Health -= GameControl.AxeDamage;
@@ -53,6 +71,7 @@ public class EnemyScript : MonoBehaviour
     void StartLeeching()
     {
         leeching = true;
+        GameControl.RootsOnCrystal++;
         GetComponent<MeshRenderer>().material = GlowyMat;
     }
 
@@ -62,10 +81,14 @@ public class EnemyScript : MonoBehaviour
         invincible = false;
     }
 
-    public virtual void Die()
+    public virtual void Die(bool fromwaveover = false)
     {
+        active= false;
         leeching = false;
+        GameControl.RootsOnCrystal--;
+        if (!fromwaveover)
         GameControl.GetLumber(WoodGained);
+
         EnemySpawner.EnemiesTotalCurr--;
         ObjectPooler.Destroy(this.transform.parent.gameObject);
     }

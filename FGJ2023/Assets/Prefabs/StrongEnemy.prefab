@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 794699c1590f9a040a1f0d9576a2eef2, type: 2}
+  - {fileID: 2100000, guid: 46129d9501685214697c48f12471073f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,9 +129,9 @@ MonoBehaviour:
   Health: 8
   WoodGained: 1
   InvincibleTime: 0.4
-  TimeToReachCrystal: 10
+  Speed: 0.2
   GameControl: {fileID: 0}
-  GlowyMat: {fileID: 2100000, guid: 691cb322d7b110343aa50f910aea6906, type: 2}
+  GlowyMat: {fileID: 2100000, guid: c8a7dd7100e5cdc459c5120f1f5af7f0, type: 2}
 --- !u!1 &8402970581921137726
 GameObject:
   m_ObjectHideFlags: 0

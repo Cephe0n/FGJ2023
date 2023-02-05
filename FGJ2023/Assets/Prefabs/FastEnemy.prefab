@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7354433153387923129}
   - component: {fileID: 4674251759975052378}
   m_Layer: 7
-  m_Name: BasicRoot
+  m_Name: FastRoot
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,9 +129,9 @@ MonoBehaviour:
   Health: 2
   WoodGained: 1
   InvincibleTime: 0.4
-  TimeToReachCrystal: 4
+  Speed: 1
   GameControl: {fileID: 0}
-  GlowyMat: {fileID: 2100000, guid: 691cb322d7b110343aa50f910aea6906, type: 2}
+  GlowyMat: {fileID: 2100000, guid: b875b46bb6fad5d429b9ad4126c8a847, type: 2}
 --- !u!1 &8402970581921137726
 GameObject:
   m_ObjectHideFlags: 0

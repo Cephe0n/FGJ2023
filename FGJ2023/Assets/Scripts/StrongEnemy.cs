@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StrongEnemy : EnemyScript
 {
-    public override void Die() {
+    public override void Die(bool fromwaveover = false) {
         EnemySpawner.StrongEnemiesCurr--;
         base.Die();
     }
